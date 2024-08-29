@@ -57,7 +57,8 @@ plot1 <- FeatureScatter(seurat_merge, feature1 = "nCount_RNA", feature2 = "perce
 plot2 <- FeatureScatter(seurat_merge, feature1 = "nCount_RNA", feature2 = "nFeature_RNA", group.by = 'orig.ident')+
   labs(x = 'UMI count', y = 'Gene count') + scale_color_observable()
 qc_sca2 <- plot1+plot2
-
+ggsave(filename = 'qc_vln2.jpg',qc_vln2,width = 12,height = 7)
+ggsave(filename = 'qc_sca2.jpg',qc_sca2,width = 12,height = 6)
 
 rm(seurat_list)
 rm(seurat_merge)
@@ -148,6 +149,7 @@ p_umap <- DimPlot(sce, reduction = "umap.harmony", group.by = 'celltype', label 
     legend.text = element_text(size = 20),  
     legend.title = element_text(size = 20))+
   scale_color_observable()
+ggsave("p1_tsne.png", p, width = 26,height = 11)
 
 p_tsne_t <- DimPlot(sce, reduction = "tsne.harmony", group.by = 'orig.ident')  +
   labs(title = 'Tissue distribution')+
@@ -206,7 +208,6 @@ data_summary$celltype <- factor(data_summary$celltype,
 data_summary$orig.ident <- factor(data_summary$orig.ident, 
                                   levels = c("Normal",'Adenoma','Carcinoma'))
 
-# 绘制 ggplot 图表
 bar <- ggplot(data_summary, aes(y = celltype, 
                                 x = fraction, 
                                 fill = orig.ident)) +
@@ -226,7 +227,7 @@ bar <- ggplot(data_summary, aes(y = celltype,
     x = "Fraction of cells",
     fill = "Tissue") +
   scale_fill_observable()
-
+ggsave(filename = 'barplot0.jpg',bar, width = 7,height = 7)
 
 
 Idents(sce)= 'celltype'
